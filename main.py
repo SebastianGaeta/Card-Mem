@@ -10,6 +10,7 @@ from UserInterface import UserInterface as ui
 if __name__ == "__main__":
     user_interface = ui()
 
+
     if (rd.check_main_card_folder_exist()):
         pass
     else:
