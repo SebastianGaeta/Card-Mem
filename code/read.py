@@ -1,15 +1,15 @@
 
+from pathlib import Path
 import os
+
 
 
 class Reader:
 
     def __init__(self):
-        pass
+        self.parent_deck_directory = Path(f"{Path.cwd()}\\decks")
 
-
-    @staticmethod
-    def check_main_card_folder_exist() -> bool:
+    def check_main_deck_directory_exist(self) -> bool:
         filepath = os.getcwd() # get current working directory
         try:
             f = open(filepath + "\\cards") # (\\) only works for certain os? May need to change 
@@ -17,9 +17,11 @@ class Reader:
         except:
             return False # main card folder does not exist
 
-    @staticmethod
-    def read_all_folders():
-        pass
+    def get_deck_names(self) -> tuple[str]: # WAI
+        deck_names = ()
+        for child_directory in self.parent_deck_directory.iterdir():
+            deck_names += (child_directory.stem,) # (*,*) need comma to tell python this is a tuple
+        return deck_names
 
     @staticmethod
     def read_sub_folder():
