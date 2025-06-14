@@ -10,7 +10,6 @@ from ApplicationSpecs import Specs as spec
 if __name__ == "__main__":
     r = rd()
     main_window = root()
-    main_window.run()
     
 
     if (r.check_main_deck_directory_exist()):

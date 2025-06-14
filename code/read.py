@@ -18,10 +18,14 @@ class Reader:
             return False # main card folder does not exist
 
     def get_deck_names(self) -> tuple[str]: # WAI
-        deck_names = ()
-        for child_directory in self.parent_deck_directory.iterdir():
-            deck_names += (child_directory.stem,) # (*,*) need comma to tell python this is a tuple
-        return deck_names
+        try: 
+            deck_names = ()
+            for child_directory in self.parent_deck_directory.iterdir():
+                deck_names += (child_directory.stem,) # (*,*) need comma to tell python this is a tuple
+            return deck_names
+        except: 
+            pass
+        
 
     @staticmethod
     def read_sub_folder():

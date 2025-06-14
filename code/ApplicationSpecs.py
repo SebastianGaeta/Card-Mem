@@ -47,7 +47,12 @@ class Specs:
     def get_std_xpad_ypad():
         screen_width, screen_height = Specs.get_screen_dimensions()
         return screen_width * 0.005, screen_height * 0.005
-    
+
+    @staticmethod
+    def get_portion_dimensions_large_window_geomtry():
+        screen_width, screen_height = Specs.get_large_window_geometry()
+        return screen_width // 20, screen_height // 20
+
     @staticmethod
     def get_geometry_tuple(width, height):
         return f"{width}x{height}"

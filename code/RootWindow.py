@@ -22,9 +22,6 @@ class Root:
         self.main_label()
         self.set_option_frame()
         self.root.mainloop()
-
-    def run(self):
-        pass
         
     def set_title(self): 
         self.root.title("StudyIT")
@@ -93,14 +90,15 @@ class Root:
 
     def display_add_card_window(self, event):
         AddCardUI = AddCard()
-        AddCardUI.set_grid()
         AddCardUI.set_geometry()
+        AddCardUI.set_grid()
+        AddCardUI.set_frame_grid()
         AddCardUI.display_labels()
         AddCardUI.display_deck_listbox()
-        AddCardUI.display_term_textbox()
-        AddCardUI.display_definition_textbox()
-        AddCardUI.display_add_card_button()
-        AddCardUI.display_add_image_button()
+        AddCardUI.display_term_entrybox()
+        AddCardUI.display_definition_entrybox()
+        # AddCardUI.display_add_card_button()
+        # AddCardUI.display_add_image_button()
 
     def dummy(self, event):
         pass
