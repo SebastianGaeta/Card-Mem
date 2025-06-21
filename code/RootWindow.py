@@ -36,7 +36,7 @@ class Root:
         self.root.rowconfigure((0,1,2), weight = 1) 
 
     def main_label(self):
-        label = ttk.Label(self.root, text="Card Memory Game", font=("Arial", 18))
+        label = ttk.Label(self.root, text="Demo", font=("Arial", 18))
         label.grid(row = 0, column = 1, sticky = "n", padx=self.xpad, pady=self.ypad)
     
     #frame
@@ -97,8 +97,9 @@ class Root:
         AddCardUI.display_deck_listbox()
         AddCardUI.display_term_entrybox()
         AddCardUI.display_definition_entrybox()
-        # AddCardUI.display_add_card_button()
-        # AddCardUI.display_add_image_button()
+        AddCardUI.display_add_card_button()
+        AddCardUI.display_add_image_button()
+        AddCardUI.display_image_preview()
 
     def dummy(self, event):
         pass

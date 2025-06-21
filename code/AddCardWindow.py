@@ -27,22 +27,15 @@ class AddCard():
         self.window.rowconfigure((0,1,2,3), weight = 1)
     
     def set_frame_grid(self):
-        self.frame.grid(row=0, column=0, rowspan=2, sticky="nsew", padx=self.xpad)
+        self.frame.grid(row=0, column=0, rowspan=4, sticky="nsew", padx=self.xpad)
         self.frame.columnconfigure(0, weight=2)
         self.frame.columnconfigure(1, weight=1)
-        self.frame.rowconfigure((0,1,2), weight=1)
-
+        self.frame.rowconfigure((0,1,2,3), weight=1)
+        self.frame.config(relief="sunken")
 
     def set_geometry(self):
         window_width, window_height = spec.get_large_window_geometry()
         self.window.geometry(f"{spec.get_geometry_tuple(window_width, window_height)}")
-
-    # def add_card_window_set_up(self, event):
-    #     sub_window_width, sub_window_height = self.get_large_window_geometry()
-    #     add_card_window = tk.Toplevel()
-    #     add_card_window.geometry(self.spec.get_geometry_tuple(sub_window_width, sub_window_height))
-    #     self.set_add_card_window_grid(add_card_window)
-    #     self.display_add_card_window_ui(add_card_window)
 
     def display_labels(self):
         deck_to_add_to_label = ttk.Label(self.frame, text="Deck", font=("Helvetica", 14))
@@ -51,8 +44,8 @@ class AddCard():
         term_label.grid(row = 1, column = 1)
         definition_label = ttk.Label(self.frame, text="Definition", font=("Helvetica", 14))
         definition_label.grid(row = 2, column = 1)
-        img_label = ttk.Label(self.window, text="image", font=("Helvetica", 14))
-        img_label.grid(row = 3, column = 0, sticky="n")
+        img_label = ttk.Label(self.frame, text="image", font=("Helvetica", 14))
+        img_label.grid(row = 3, column = 1)
 
     def display_deck_listbox(self):
         #listbox
@@ -73,16 +66,21 @@ class AddCard():
         self.definition_entrybox.grid(row=2, column=0, sticky="we")
 
     def display_add_image_button(self):
-        add_image_button = ttk.Button(self.window, text="Add")
-        add_image_button.grid(row=3, column=0, sticky="ne", padx=20)
+        add_image_button = ttk.Button(self.frame, text="Add")
+        add_image_button.grid(row=3, column=0, sticky="e")
         add_image_button.bind("<Button>", self.file_manager_popup)
+
+    def display_image_preview(self):
+        photofile = tk.PhotoImage(file="python.png")
+        photo = ttk.Label(master=self.window, image=photofile,text="asdadasdasd")
+        photo.grid(row=0,column=3)
 
     def file_manager_popup(self, event):
         pass
 
     def display_add_card_button(self):
         add_card = ttk.Button(master=self.window, text="Add card")
-        add_card.grid(row=3, column=2)
+        add_card.grid(row=3, column=3, sticky="se", padx=self.xpad, pady=self.ypad)
         add_card.bind("<Button>", self.add_card)
 
     def add_card(self, event):

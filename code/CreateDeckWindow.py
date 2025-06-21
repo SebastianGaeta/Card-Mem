@@ -9,12 +9,15 @@ from write import Writer as wr
 from ApplicationSpecs import Specs as spec
 
 
+# PREVENT RESIZE ON WINDOW 
+
 class CreateDeck:
 
 
     def __init__(self):
         self.window = tk.Toplevel()
         self.entry = ttk.Entry(self.window)
+        self.xpad, self.ypad = spec.get_std_xpad_ypad()
 
     def set_geometry(self):
         window_width, window_height = spec.get_small_window_geometry()
@@ -26,15 +29,15 @@ class CreateDeck:
         self.window.rowconfigure((0,1), weight = 1)
 
     def set_prompt(self):
-        prompt = ttk.Label(self.window, text = "Deck Name:", font=("Helvetica", 15))
+        prompt = ttk.Label(self.window, text = "Deck Name:")
         prompt.grid(row = 0, column = 0)
     
     def set_entry(self):
-        self.entry.grid(row = 0, column = 1, sticky = "we", padx = 30)
+        self.entry.grid(row = 0, column = 1, sticky="we", padx=self.xpad)
 
     def set_button(self):
         enter_button = ttk.Button(self.window, text = "Enter")
-        enter_button.grid(row = 1, column = 1, sticky = "e", padx = 30)
+        enter_button.grid(row = 1, column = 1, sticky="e", padx=self.xpad)
         enter_button.bind("<Button>", self.create_deck_command)
         
     def create_deck_command(self, event):
