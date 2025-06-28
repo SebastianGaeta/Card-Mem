@@ -1,10 +1,12 @@
 import tkinter as tk
 from tkinter import ttk 
-from write import Writer as wr
-from tkinter import messagebox
+from PIL import Image
 
-from read import Reader as rd
-from write import Writer as wr
+
+# from tkinter import messagebox
+# from write import Writer as wr
+# from read import Reader as rd
+# from write import Writer as wr
 
 
 class Specs:
@@ -19,6 +21,21 @@ class Specs:
         screen_width, screen_height = window.winfo_screenwidth(), window.winfo_screenheight()
         window.destroy()
         return screen_width, screen_height # return tuple in form (width, height)
+    
+    @staticmethod
+    def get_screen_width():
+        window = tk.Tk()
+        screen_width = window.winfo_screenwidth()
+        window.destroy()
+        return screen_width
+
+    @staticmethod
+    def get_screen_height():
+        window = tk.Tk()
+        screen_height = window.winfo_screenheight
+        window.destroy()
+        return screen_height
+
 
     @staticmethod
     def get_centered_window(screen_width, screen_height):
@@ -44,92 +61,37 @@ class Specs:
         return screen_width // 2, screen_height // 2  # return tuple in form (width, height)
     
     @staticmethod
-    def get_std_xpad_ypad():
+    def get_std_xy_pad():
         screen_width, screen_height = Specs.get_screen_dimensions()
-        return screen_width * 0.005, screen_height * 0.005
+        return screen_width * 0.007, screen_height * 0.007
     
+    def get_std_x_pad():
+        screen_width = Specs.get_screen_width()
+        return screen_width * 0.007
+    
+    def get_std_y_pad():
+        screen_height = Specs.get_screen_height()
+        return screen_height * 0.007
+
     @staticmethod
     def get_geometry_tuple(width, height):
         return f"{width}x{height}"
-
-
-
-##########################################################################
-    # root frame add card option
-
     
-    # def set_term_entry_box(self, window):
-    #     entry_box = ttk.Entry(window)
-    #     entry_box.grid(row=1, column=0, sticky="we", padx=20)
-
-
-##########################################################################
-
-    # # statistics option
-    # def root_statistics_option(self, frame):
-    #     statistics_button = ttk.Button(frame)
-    #     statistics_button.grid(row=3, column=0, sticky="nswe")
-    #     statistics_button.config(text="Statistics")
-    #     statistics_button.bind("<Button>", self.open_statistics_window)
-
-    # def open_statistics_window(self, event):
-    #     sub_window_width, sub_window_height = self.get_small_window_geometry()
-    #     statistics_window = tk.Toplevel()
-    #     statistics_window.geometry(self.get_geometry_tuple(sub_window_width, sub_window_height))
-
-
-    # # edit_deck window methods
-    # def root_edit_deck_option(self, frame):
-    #     edit_deck_button = ttk.Button(frame)
-    #     edit_deck_button.grid(row=2, column=0, sticky="nswe")
-    #     edit_deck_button.config(text="Edit Deck")
-    #     edit_deck_button.bind("<Button>", self.open_edit_deck_window)
-
-    # def open_edit_deck_window(self, event):
-    #     sub_window_width, sub_window_height = self.get_small_window_geometry()
-    #     edit_deck_window = tk.Toplevel()
-    #     edit_deck_window.geometry(self.get_geometry_tuple(sub_window_width, sub_window_height))
-
-    # create-deck window methods 
-
-    
-    # def root_create_deck_option(self, frame):
-    #     create_deck_button = ttk.Button(frame)
-    #     create_deck_button.grid(row=0, column=0, sticky="nswe")
-    #     create_deck_button.config(text="Create Deck")
-    #     create_deck_button.bind("<Button>", self.open_create_deck_window)
-
-    # def open_create_deck_window(self, event):
-    #     sub_window_width, sub_window_height = self.get_small_window_geometry()
-    #     create_deck_window = tk.Toplevel()
-    #     create_deck_window.geometry(self.get_geometry_tuple(sub_window_width, sub_window_height))
-    #     self.set_create_deck_window_grid(create_deck_window)
-    #     self.create_deck_window_label(create_deck_window)
-    #     self.create_deck_window_entry(create_deck_window)
-
-    # def set_create_deck_window_grid(self, window):
-    #     window.columnconfigure(0, weight = 1)
-    #     window.columnconfigure(1, weight = 3)
-    #     window.rowconfigure((0,1), weight = 1)
-
-    # def create_deck_window_label(self, window):
-    #     prompt = ttk.Label(window, text = "Deck Name:", font=("Helvetica", 15))
-    #     prompt.grid(row = 0, column = 0)
-    
-    # def create_deck_window_entry(self, window):
-    #     name_entry = ttk.Entry(window)
-    #     enter_button = ttk.Button(window, text = "Enter")
-    #     name_entry.grid(row = 0, column = 1, sticky = "we",padx = 30)
-    #     enter_button.grid(row = 1, column = 1, sticky = "e", padx = 30)
-    #     enter_button.config(command = lambda: self.create_deck_window_button_command(name_entry, window))
-        
-    # def create_deck_window_button_command(self, name_entry, window):
-    #     deck_name = name_entry.get()
-    #     if deck_name != "": # check for valid name
-    #         writer = wr()
-    #         writer.create_parent_deck_directory()
-    #         writer.create_deck_folder(deck_name, window)
-    #     else: # no name was given -> reprompt
-    #         messagebox.showinfo(title="information", message="Enter a Name")
-        
-        
+    @staticmethod
+    def get_image_geometry(file):
+        screen_width = Specs.get_screen_width()
+        max_image_square_dimension = screen_width * 0.175 # assign max image dimensions
+        image = Image.open(file) 
+        image_width, image_height = image.size
+        if (image_width <= max_image_square_dimension and image_height <= max_image_square_dimension):
+            return int(image_width), int(image_height) # image was within acceptable dimesions 
+        else:
+            if (image_width >= image_height): # image width is greater than height or it is a square image
+                image_resizer = max_image_square_dimension / image_width 
+                image_width *= image_resizer
+                image_height *= image_resizer
+            else: # image height is greater
+                image_resizer = max_image_square_dimension / image_height 
+                image_width *= image_resizer
+                image_height *= image_resizer
+        return int(image_width), int(image_height)

@@ -27,7 +27,7 @@ class CreateDeck:
 
     def set_prompt(self):
         prompt = ttk.Label(self.window, text = "Deck Name:", font=("Helvetica", 15))
-        prompt.grid(row = 0, column = 0)
+        prompt.grid(row = 0, column = 0, sticky="e")
     
     def set_entry(self):
         self.entry.grid(row = 0, column = 1, sticky = "we", padx = 30)

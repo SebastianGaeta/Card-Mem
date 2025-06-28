@@ -15,7 +15,7 @@ class Root:
 
     def __init__(self):
         self.root = tk.Tk()
-        self.xpad, self.ypad = spec.get_std_xpad_ypad()
+        self.xpad, self.ypad = spec.get_std_xy_pad()
         self.set_title()
         self.set_geometry()
         self.set_grid()
@@ -97,10 +97,13 @@ class Root:
         AddCardUI.set_geometry()
         AddCardUI.display_labels()
         AddCardUI.display_deck_listbox()
+        AddCardUI.display_deck_listbox_scrollbar()
         AddCardUI.display_term_textbox()
         AddCardUI.display_definition_textbox()
         AddCardUI.display_add_card_button()
         AddCardUI.display_add_image_button()
+        AddCardUI.display_sample_image()
+        
 
     def dummy(self, event):
         pass
