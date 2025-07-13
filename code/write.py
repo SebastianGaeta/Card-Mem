@@ -1,6 +1,7 @@
 
 from tkinter import messagebox
 from pathlib import Path
+from PIL import ImageTk, Image
 import shutil
 from read import Reader as rd
 
@@ -87,8 +88,47 @@ class Writer:
             
         return True
 
+    @staticmethod
+    def rename_card_folder(card_directory: str, term: str):
+        card_directory = Path(card_directory)
+        deck = card_directory.parent
+        card_directory.rename(Path(f"{deck}\\{term[0:9].strip()}"))
         
-        
-        
-        
+
+    @staticmethod
+    def create_card(card_directory: str, term: str, definition: str):
+        with open(f"{card_directory}\\term.txt", "w", encoding="utf-8") as fp:
+            for line in term:
+                fp.write(line)
+        with open(f"{card_directory}\\definition.txt","w", encoding="utf-8") as fp:
+            for line in definition:
+                fp.write(line)
+    
+    @staticmethod
+    def save_image_to_card_folder(card_directory: str, image_file: str):
+        image = Image.open(image_file)
+        image.save(f"{card_directory}\\{rd.get_file_name(image_file)}")
+
+    @staticmethod
+    def update_term(card_directory: str, term):
+        with open(f"{card_directory}\\term.txt", "w", encoding="utf-8") as fp:
+            for line in term:
+                fp.write(line)
+
+    @staticmethod
+    def update_definition(card_directory: str, definition: str):
+        with open(f"{card_directory}\\definition.txt", "w", encoding="utf-8") as fp:
+            for line in definition:
+                fp.write(line)
+
+    def update_image(card_directory: str, image_file: str):
+        image = None
+        for file in card_directory.iterdir():
+            if file.name.endswith(("jpg", "png")): # image
+                Path.unlink(file)
+                break
+       
+        Writer.save_image_to_card_folder(card_directory, image_file)
+
+    
 

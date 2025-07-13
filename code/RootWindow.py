@@ -4,11 +4,12 @@ from tkinter import ttk
 from write import Writer as wr
 from tkinter import messagebox
 
+from ApplicationSpecs import Specs as spec
 from read import Reader as rd
 from write import Writer as wr
 from AddCardWindow import AddCard
-from ApplicationSpecs import Specs as spec
 from CreateDeckWindow import CreateDeck 
+from EditDeckWindow import EditDeck
 
 
 class Root:
@@ -22,9 +23,6 @@ class Root:
         self.main_label()
         self.set_option_frame()
         self.root.mainloop()
-
-    def run(self):
-        pass
         
     def set_title(self): 
         self.root.title("StudyIT")
@@ -39,18 +37,19 @@ class Root:
         self.root.rowconfigure((0,1,2), weight = 1) 
 
     def main_label(self):
-        label = ttk.Label(self.root, text="Card Memory Game", font=("Arial", 18))
+        label = ttk.Label(self.root, text="StudyIT", font=("Arial", 18))
         label.grid(row = 0, column = 1, sticky = "n", padx=self.xpad, pady=self.ypad)
     
     #frame
     def set_option_frame(self):
         frame = ttk.Frame(self.root)
         frame.grid(row = 0, column = 0, sticky="nsew", rowspan=3, padx=self.xpad, pady=self.ypad)
+        frame.grid_propagate(False)
         frame.config(relief="solid")
         self.set_option_frame_grid(frame) 
         self.create_deck_option(frame)
         self.add_card_option(frame)
-        self.add_card_option(frame)
+        self.edit_deck_option(frame)
         self.statistics_option(frame)
 
     def set_option_frame_grid(self, frame):
@@ -74,7 +73,7 @@ class Root:
         edit_deck_button = ttk.Button(frame)
         edit_deck_button.grid(row=2, column=0, sticky="nswe")
         edit_deck_button.config(text="Edit Deck")
-        edit_deck_button.bind("<Button>", self.dummy)
+        edit_deck_button.bind("<Button>", self.display_edit_deck_window)
     
     def statistics_option(self, frame):
         statistics_button = ttk.Button(frame)
@@ -93,8 +92,7 @@ class Root:
 
     def display_add_card_window(self, event):
         AddCardUI = AddCard()
-        AddCardUI.set_grid()
-        AddCardUI.set_geometry()
+        AddCardUI.display_sample_image()
         AddCardUI.display_labels()
         AddCardUI.display_deck_listbox()
         AddCardUI.display_deck_listbox_scrollbar()
@@ -102,8 +100,18 @@ class Root:
         AddCardUI.display_definition_textbox()
         AddCardUI.display_add_card_button()
         AddCardUI.display_add_image_button()
-        AddCardUI.display_sample_image()
         
+        
+    def display_edit_deck_window(self, event):
+        EditDeckUI = EditDeck()
+        EditDeckUI.set_grid()
+        EditDeckUI.set_root_geometry()
+        # EditDeckUI.enable_static_widgets()
+        EditDeckUI.display_deck_listbox()
+        EditDeckUI.display_deck_listbox_scrollbar()
+        EditDeckUI.display_card_listbox()
+        EditDeckUI.display_card_listbox_scrollbar()
+        EditDeckUI.check_selections()
 
     def dummy(self, event):
         pass

@@ -78,20 +78,33 @@ class Specs:
         return f"{width}x{height}"
     
     @staticmethod
-    def get_image_geometry(file):
-        screen_width = Specs.get_screen_width()
-        max_image_square_dimension = screen_width * 0.175 # assign max image dimensions
-        image = Image.open(file) 
+    def get_resize_image_geometry(image_file, width, height):
+        
+        image = Image.open(image_file) 
         image_width, image_height = image.size
-        if (image_width <= max_image_square_dimension and image_height <= max_image_square_dimension):
-            return int(image_width), int(image_height) # image was within acceptable dimesions 
+        image_resizer = None
+        # print(width, height, "accepted")
+        # print(image_width, image_height, "actual")
+        if (image_width <= width and image_height <= height): # image was within acceptable dimensions 
+            return int(image_width), int(image_height) 
         else:
-            if (image_width >= image_height): # image width is greater than height or it is a square image
-                image_resizer = max_image_square_dimension / image_width 
-                image_width *= image_resizer
-                image_height *= image_resizer
-            else: # image height is greater
-                image_resizer = max_image_square_dimension / image_height 
-                image_width *= image_resizer
-                image_height *= image_resizer
+            if (image_width > width and image_height > height): # image width and height are greater then accepted
+                if (width < height): # width was greater
+                    image_ratio = image_height / image_width
+                    image_resizer = width / image_width
+                    image_width *= image_resizer
+                    image_height =  image_width * image_ratio
+                elif (height <= width): # height was greater or potential square image
+                    image_ratio = image_width / image_height
+                    image_resizer = height / image_height
+                    image_height *= image_resizer
+                    image_width = image_height * image_ratio
+                # print(image_width, image_height)
+                return int(image_width), int(image_height)
+            elif (image_height > height): # image height is greater than allowed height
+                image_resizer = height / image_height 
+            else: # image width is greater than allowed width
+                image_resizer = width / image_width 
+        image_width *= image_resizer
+        image_height *= image_resizer
         return int(image_width), int(image_height)
