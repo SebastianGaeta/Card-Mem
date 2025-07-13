@@ -17,11 +17,29 @@ class Root:
     def __init__(self):
         self.root = tk.Tk()
         self.xpad, self.ypad = spec.get_std_xy_pad()
+        self.font = ("Helvetica", 14)
+
+        self.option_frame = ttk.Frame(master=self.root)
+        self.config_option_frame()
+        self.play_frame = ttk.Frame(master=self.root)
+        self.config_play_frame()
+
+        self.deck_listbox = tk.Listbox(master=self.play_frame, exportselection=False)
+        self.display_deck_listbox()
+        self.display_deck_listbox_scrollbar()
+
+        self.create_deck_option(self.option_frame)
+        self.add_card_option(self.option_frame)
+        self.edit_deck_option(self.option_frame)
+        self.statistics_option(self.option_frame)
+
         self.set_title()
         self.set_geometry()
         self.set_grid()
         self.main_label()
-        self.set_option_frame()
+        self.play_label()
+
+        
         self.root.mainloop()
         
     def set_title(self): 
@@ -40,21 +58,40 @@ class Root:
         label = ttk.Label(self.root, text="StudyIT", font=("Arial", 18))
         label.grid(row = 0, column = 1, sticky = "n", padx=self.xpad, pady=self.ypad)
     
-    #frame
-    def set_option_frame(self):
-        frame = ttk.Frame(self.root)
-        frame.grid(row = 0, column = 0, sticky="nsew", rowspan=3, padx=self.xpad, pady=self.ypad)
-        frame.grid_propagate(False)
-        frame.config(relief="solid")
-        self.set_option_frame_grid(frame) 
-        self.create_deck_option(frame)
-        self.add_card_option(frame)
-        self.edit_deck_option(frame)
-        self.statistics_option(frame)
+    def play_label(self):
+        label = ttk.Label(self.play_frame, text="Select a Deck To Study OR Create a New One", font=self.font)
+        label.grid(row = 0, column = 0)
 
-    def set_option_frame_grid(self, frame):
-        frame.columnconfigure(0, weight = 1)
-        frame.rowconfigure((0,1,2,3), weight = 1)
+    #frame
+    def config_option_frame(self):
+        self.option_frame.config(relief="solid")
+        self.option_frame.grid(row = 0, column = 0, sticky="nsew", rowspan=3, padx=self.xpad, pady=self.ypad)
+        self.option_frame.columnconfigure(0, weight = 1)
+        self.option_frame.rowconfigure((0,1,2,3), weight = 1)
+        self.option_frame.grid_propagate(False)
+    
+    def config_play_frame(self):
+        self.play_frame.grid(row = 1, column = 1, sticky="nsew", rowspan=2, columnspan=2,
+                             padx=self.xpad, pady=self.ypad)
+        self.play_frame.columnconfigure(0, weight = 1)
+        self.play_frame.rowconfigure(0, weight = 1)
+        self.play_frame.rowconfigure(1, weight = 5)
+        self.play_frame.grid_propagate(False)
+
+       
+    
+    def display_deck_listbox(self):
+        decks = rd.get_deck_names()
+        listbox_variable = tk.Variable(value=decks)
+        self.deck_listbox.config(listvariable=listbox_variable)
+        self.deck_listbox.config(selectmode=tk.SINGLE)
+        self.deck_listbox.config(height=5)
+        self.deck_listbox.grid(row=1, column=0, sticky="nwse")
+
+    def display_deck_listbox_scrollbar(self):
+        vertical_scrollbar = ttk.Scrollbar(self.play_frame, orient=tk.VERTICAL, command=self.deck_listbox.yview)
+        self.deck_listbox["yscrollcommand"] = vertical_scrollbar.set
+        vertical_scrollbar.grid(row=1, column=0, sticky="nse")
 
     #buttons
     def create_deck_option(self, frame):

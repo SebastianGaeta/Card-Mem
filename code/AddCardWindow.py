@@ -169,7 +169,7 @@ class AddCard():
 
     def display_remove_image_button(self):
         self.remove_image_button.config(text="Remove Image")
-        self.remove_image_button.grid(row=0, column=3, sticky="n")
+        self.remove_image_button.grid(row=0, column=2, sticky="ne")
         self.remove_image_button.bind("<Button>", self.hide_remove_image_button)
 
     def hide_remove_image_button(self, event):
