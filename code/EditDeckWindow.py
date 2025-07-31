@@ -2,7 +2,7 @@ import tkinter as tk
 from tkinter import ttk 
 from write import Writer as wr
 from tkinter import messagebox
-from tkinter import filedialog
+
 
 from ApplicationSpecs import Specs as spec
 from read import Reader as rd
@@ -135,7 +135,7 @@ class EditDeck():
     
     def config_button_frame(self):
         self.button_frame.grid(row=7, column=2, sticky="nwse", padx=self.x_buffer, columnspan=2)
-        self.button_frame.columnconfigure((0,1,2,3,4), weight=1)
+        self.button_frame.columnconfigure((0,1,2,3), weight=1)
         self.button_frame.rowconfigure(0, weight=1)
         self.button_frame.grid_propagate(False)
 
@@ -239,10 +239,11 @@ class EditDeck():
         delete_card = ttk.Button(master=self.button_frame, text="Delete Card")
         delete_card.grid(row=0, column=2)     
         delete_card.bind("<Button>", self.delete_card)
-        preview_card = ttk.Button(master=self.button_frame, text="Preview Card")
-        preview_card.grid(row=0, column=3)    
+        # delete_deck = ttk.Button(master=self.button_frame, text="Delete Deck")
+        # delete_deck.grid(row=0, column=0)   
+        # delete_deck.bind("<Button>", self.delete_deck)
         update_card = ttk.Button(master=self.button_frame, text="Update Card")
-        update_card.grid(row=0, column=4)    
+        update_card.grid(row=0, column=3)    
         update_card.bind("<Button>", self.update_card)
 
     def update_card(self, event):
@@ -287,4 +288,13 @@ class EditDeck():
                                 message="Card was Unable to be Deleted",
                                 parent=self.window)
 
-        
+    # def delete_deck(self, event):
+    #     deck_directory = Path(f"{rd.get_deck_directory()}\\{self.current_deck}")
+    #     if (rd.delete_deck(deck_directory)):
+    #         messagebox.showinfo(title="Information", 
+    #                             message="Deck Successfully Deleted",
+    #                             parent=self.window)
+    #     else:
+    #         messagebox.showerror(title="Error",
+    #                             message="Deck was Unable to be Deleted",
+    #                             parent=self.window)

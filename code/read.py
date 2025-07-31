@@ -10,13 +10,13 @@ class Reader:
     def __init__(self):
         self.parent_deck_directory = Path(f"{Path.cwd().parent}\\decks")
 
-    def check_main_deck_directory_exist(self) -> bool:
-        filepath = os.getcwd() # get current working directory
-        try:
-            f = open(filepath + "\\cards") # (\\) only works for certain os? May need to change 
-            return True # main card folder exist
-        except:
-            return False # main card folder does not exist
+    # def check_main_deck_directory_exist(self) -> bool:
+    #     filepath = os.getcwd() # get current working directory
+    #     try:
+    #         f = open(filepath + "\\cards") # (\\) only works for certain os? May need to change 
+    #         return True # main card folder exist
+    #     except:
+    #         return False # main card folder does not exist
         
     @staticmethod
     def get_base_directory():
@@ -96,6 +96,14 @@ class Reader:
     def delete_card(card_directory: str) -> bool:
         if Path.is_dir(card_directory):
             shutil.rmtree(card_directory)
+            return True
+        else:
+            return False
+        
+    @staticmethod
+    def delete_deck(deck_directory: str) -> bool:
+        if Path.is_dir(deck_directory):
+            shutil.rmtree(deck_directory)
             return True
         else:
             return False

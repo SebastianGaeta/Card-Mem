@@ -8,26 +8,37 @@ from read import Reader as rd
 class Writer: 
 
     def __init__(self):
-        self.parent_deck_directory = Path(f"{Path.cwd()}\\decks") 
-        # self.parent_deck_directory = Path(f"{Path.cwd().parent}\\decks") # I dont know why but vs doesnt realize we are in /code
+        pass
         
 
-    def create_parent_deck_directory(self) -> bool:
-        if (self.parent_deck_directory.is_dir() == True): # parent directory exist
+    @staticmethod
+    def get_parent_deck_directory():
+        return Path(f"{Writer.get_base_directory()}\\decks") 
+
+    @staticmethod
+    def get_base_directory():
+        return Path(f"{Path.cwd().parent}")
+
+    @staticmethod
+    def create_parent_deck_directory() -> bool:
+        parent_directory = Writer.get_parent_deck_directory()
+
+        if (Writer.get_parent_deck_directory().is_dir() == True): # parent directory exist
             return True
         else: # parent directory does not exist
             try:
-                Path.mkdir(f"{self.parent_deck_directory}")
+                Path.mkdir(f"{Writer.get_parent_deck_directory()}")
                 return True # Was Parent created successfully?
             except:
                 messagebox.showerror("Failed To Make Deck Folder") 
                 return False # Was Parent created successfully?
 
-    def create_deck_folder(self, folder_name: str, window):
-        parent_directory_exist = self.create_parent_deck_directory()
-    
+    @staticmethod
+    def create_deck_folder(folder_name: str, window):
+        parent_directory_exist = Writer.create_parent_deck_directory()
+
         if (parent_directory_exist):
-            child_deck_directory = f"{self.parent_deck_directory}\\{folder_name}" # child directory
+            child_deck_directory = f"{Writer.get_base_directory()}\\decks\\{folder_name}" # child directory
             try: # Attempt to make child deck folder
                 Path.mkdir(f"{child_deck_directory}")
                 messagebox.showinfo(title="Information", 

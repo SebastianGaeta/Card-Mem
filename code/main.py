@@ -8,5 +8,5 @@ from ApplicationSpecs import Specs as spec
 
 
 if __name__ == "__main__":
-    r = rd()
-    main_window = root()
+    wr.create_parent_deck_directory()
+    main_window = root()      

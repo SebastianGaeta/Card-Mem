@@ -41,8 +41,7 @@ class CreateDeck:
     def create_deck_command(self, event):
         deck_name = self.entry.get()
         if deck_name != "": # check for valid name
-            writer = wr()
-            writer.create_parent_deck_directory()
-            writer.create_deck_folder(deck_name, self.window)
+            # wr.create_parent_deck_directory()
+            wr.create_deck_folder(deck_name, self.window)
         else: # no name was given -> reprompt
             messagebox.showinfo(title="information", message="Enter a Name for the Deck", parent=self.window)

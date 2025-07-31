@@ -10,7 +10,8 @@ from write import Writer as wr
 from AddCardWindow import AddCard
 from CreateDeckWindow import CreateDeck 
 from EditDeckWindow import EditDeck
-
+from StudyWindow import Study
+from DeleteDeckWindow import DeleteDeck
 
 class Root:
 
@@ -31,7 +32,7 @@ class Root:
         self.create_deck_option(self.option_frame)
         self.add_card_option(self.option_frame)
         self.edit_deck_option(self.option_frame)
-        self.statistics_option(self.option_frame)
+        self.delete_deck_option(self.option_frame)
 
         self.set_title()
         self.set_geometry()
@@ -39,6 +40,7 @@ class Root:
         self.main_label()
         self.play_label()
 
+        self.check_deck_selection()
         
         self.root.mainloop()
         
@@ -78,7 +80,7 @@ class Root:
         self.play_frame.rowconfigure(1, weight = 5)
         self.play_frame.grid_propagate(False)
 
-       
+####
     
     def display_deck_listbox(self):
         decks = rd.get_deck_names()
@@ -112,11 +114,11 @@ class Root:
         edit_deck_button.config(text="Edit Deck")
         edit_deck_button.bind("<Button>", self.display_edit_deck_window)
     
-    def statistics_option(self, frame):
+    def delete_deck_option(self, frame):
         statistics_button = ttk.Button(frame)
-        statistics_button.grid(row=3, column=0, sticky="nswe")
-        statistics_button.config(text="Statistics")
-        statistics_button.bind("<Button>", self.dummy)
+        statistics_button.grid(row=3, column=0, sticky="nwse")
+        statistics_button.config(text="Delete Deck")
+        statistics_button.bind("<Button>", self.delete_deck_window)
 
     ############### sub windows ###############
     def display_create_deck_window(self, event):
@@ -143,12 +145,39 @@ class Root:
         EditDeckUI = EditDeck()
         EditDeckUI.set_grid()
         EditDeckUI.set_root_geometry()
-        # EditDeckUI.enable_static_widgets()
         EditDeckUI.display_deck_listbox()
         EditDeckUI.display_deck_listbox_scrollbar()
         EditDeckUI.display_card_listbox()
         EditDeckUI.display_card_listbox_scrollbar()
         EditDeckUI.check_selections()
 
-    def dummy(self, event):
-        pass
+    def delete_deck_window(self, event):
+        DeleteDeckUI = DeleteDeck()
+        DeleteDeckUI.set_grid()
+        DeleteDeckUI.set_geometry()
+        DeleteDeckUI.display_deck_listbox()
+        DeleteDeckUI.display_deck_listbox_scrollbar()
+        DeleteDeckUI.display_remove_deck_button()
+
+    def display_study_window(self, deck):
+        StudyUI = Study(deck)
+        StudyUI.set_grid()
+        StudyUI.set_geometry()
+        StudyUI.display_card_select_listbox()
+        StudyUI.display_card_select_scrollbar()
+        StudyUI.display_prompt()
+        StudyUI.display_buttons()
+
+####
+
+    def check_deck_selection(self):
+        try: # user has selected a deck 
+            deck = self.deck_listbox.get(self.deck_listbox.curselection())
+            self.root.after(100, lambda: self.display_study_window(deck))
+            self.deck_listbox.selection_clear(0, tk.END)
+            self.root.after(100, self.check_deck_selection)
+        except: # user has not selected a deck 
+            self.display_deck_listbox()
+            self.display_deck_listbox_scrollbar()
+
+            self.root.after(100, self.check_deck_selection)
