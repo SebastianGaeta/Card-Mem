@@ -59,7 +59,7 @@ class Study:
         self.window.rowconfigure(0, weight=1)
 
     def set_geometry(self):
-        window_width, window_height = spec.get_large_window_geometry()
+        window_width, window_height = spec.get_screen_dimensions()
         self.window.geometry(f"{spec.get_geometry_tuple(window_width, window_height)}")
     
 #### frames ####
