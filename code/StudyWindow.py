@@ -17,6 +17,7 @@ class Study:
     def __init__(self, deck: str) -> None:
         self.window = tk.Toplevel()
         self.window.bind("<Key-space>", self.on_space_bar)
+        self.window.attributes('-fullscreen', True)
         
         self.x_buffer, self.y_buffer = spec.get_std_xy_pad()
         self.font = ("Arial", 14)
@@ -59,7 +60,7 @@ class Study:
         self.window.rowconfigure(0, weight=1)
 
     def set_geometry(self):
-        window_width, window_height = spec.get_screen_dimensions()
+        window_width, window_height = spec.get_large_window_geometry()
         self.window.geometry(f"{spec.get_geometry_tuple(window_width, window_height)}")
     
 #### frames ####
